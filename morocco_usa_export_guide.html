@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🇲🇦 → 🇺🇸 Export Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f4f1eb; color: #222; }
+
+  header {
+    background: linear-gradient(135deg, #c1272d, #006233);
+    color: white;
+    padding: 28px 32px;
+    text-align: center;
+  }
+  header h1 { font-size: 2rem; letter-spacing: 1px; }
+  header p { opacity: 0.85; margin-top: 6px; font-size: 1rem; }
+
+  nav {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    background: #1a1a2e; padding: 12px 24px; justify-content: center;
+  }
+  nav button {
+    background: transparent; border: 1.5px solid rgba(255,255,255,0.3);
+    color: #ccc; padding: 7px 16px; border-radius: 20px; cursor: pointer;
+    font-size: 0.85rem; transition: all 0.2s;
+  }
+  nav button:hover, nav button.active {
+    background: #c1272d; border-color: #c1272d; color: white;
+  }
+
+  .section { display: none; max-width: 920px; margin: 28px auto; padding: 0 16px 40px; }
+  .section.active { display: block; }
+
+  h2 { font-size: 1.4rem; color: #c1272d; margin-bottom: 16px; border-left: 4px solid #c1272d; padding-left: 12px; }
+  h3 { font-size: 1.05rem; color: #006233; margin: 18px 0 8px; }
+
+  .card {
+    background: white; border-radius: 10px; padding: 20px;
+    margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .card p { line-height: 1.65; color: #444; font-size: 0.95rem; }
+
+  /* Steps */
+  .steps { counter-reset: step; }
+  .step {
+    display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start;
+    background: white; border-radius: 10px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .step-num {
+    background: #c1272d; color: white; border-radius: 50%;
+    width: 34px; height: 34px; display: flex; align-items: center;
+    justify-content: center; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+  }
+  .step-body h4 { font-size: 0.98rem; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
+  .step-body p { font-size: 0.9rem; color: #555; line-height: 1.55; }
+  .tag {
+    display: inline-block; font-size: 0.73rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle;
+  }
+  .tag.cost { background: #fff3cd; color: #856404; }
+  .tag.time { background: #d1ecf1; color: #0c5460; }
+  .tag.warn { background: #f8d7da; color: #721c24; }
+  .tag.ok { background: #d4edda; color: #155724; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  th { background: #1a1a2e; color: white; padding: 11px 14px; text-align: left; font-size: 0.88rem; }
+  td { padding: 10px 14px; font-size: 0.88rem; border-bottom: 1px solid #eee; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .green { color: #155724; font-weight: 600; }
+  .red { color: #721c24; font-weight: 600; }
+  .orange { color: #856404; font-weight: 600; }
+
+  /* Bar chart */
+  .bar-chart { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .bar-row { display: flex; align-items: center; margin-bottom: 10px; gap: 10px; }
+  .bar-label { width: 130px; font-size: 0.82rem; color: #444; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; background: #eee; border-radius: 4px; height: 26px; position: relative; }
+  .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 0.78rem; color: white; font-weight: 600; transition: width 1s ease; }
+  .bar-val { font-size: 0.8rem; color: #333; width: 80px; }
+
+  /* Profit sim */
+  .sim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:600px){ .sim-grid { grid-template-columns: 1fr; } }
+  .sim-box { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+  .sim-box label { font-size: 0.82rem; color: #666; display: block; margin-bottom: 4px; margin-top: 12px; }
+  .sim-box input, .sim-box select {
+    width: 100%; padding: 7px 10px; border: 1.5px solid #ddd; border-radius: 6px;
+    font-size: 0.9rem; outline: none;
+  }
+  .sim-box input:focus { border-color: #c1272d; }
+  .result-box {
+    background: linear-gradient(135deg, #006233, #1a1a2e);
+    color: white; border-radius: 10px; padding: 20px;
+    text-align: center; margin-top: 16px;
+  }
+  .result-box h3 { color: #a8e6bc; font-size: 0.85rem; margin-bottom: 8px; }
+  .result-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.88rem; }
+  .result-row:last-child { border-bottom: none; }
+  .result-total { font-size: 1.1rem; font-weight: 700; color: #a8e6bc; margin-top: 10px; }
+
+  /* Verdict */
+  .verdict {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px;
+  }
+  @media(max-width:600px){ .verdict { grid-template-columns: 1fr; } }
+  .verdict-card {
+    border-radius: 10px; padding: 18px; text-align: center;
+  }
+  .verdict-card .icon { font-size: 2rem; }
+  .verdict-card h4 { margin: 8px 0 4px; font-size: 0.95rem; }
+  .verdict-card p { font-size: 0.82rem; opacity: 0.85; }
+  .v-green { background: #d4edda; color: #155724; }
+  .v-yellow { background: #fff3cd; color: #856404; }
+  .v-blue { background: #d1ecf1; color: #0c5460; }
+
+  .alert {
+    background: #fff3cd; border-left: 4px solid #ffc107;
+    border-radius: 6px; padding: 12px 16px; font-size: 0.88rem; color: #856404; margin: 12px 0;
+  }
+
+  footer { text-align: center; padding: 20px; font-size: 0.78rem; color: #999; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🇲🇦 Morocco → 🇺🇸 USA — Export Guide</h1>
+  <p>Atay · Bimo · Ghassoul · Savon Beldi · and more — your complete roadmap</p>
+</header>
+
+<nav>
+  <button class="active" onclick="show('overview')">📊 Overview</button>
+  <button onclick="show('company')">🏢 Company Setup</button>
+  <button onclick="show('taxes')">💰 Taxes & Duties</button>
+  <button onclick="show('shipping')">🚢 Shipping</button>
+  <button onclick="show('products')">📦 Products</button>
+  <button onclick="show('simulator')">🧮 Profit Simulator</button>
+  <button onclick="show('verdict')">✅ Final Verdict</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <h2>Overview — Is it feasible?</h2>
+  <div class="card">
+    <h3>🟢 Yes — Feasible and profitable</h3>
+    <p>Morocco and the USA signed a <strong>Free Trade Agreement (FTA)</strong> in 2006. Since 2023, <strong>almost all Moroccan products enter the USA duty-free (0% tariffs)</strong>. This is a major opportunity. In 2024 Morocco exported $2.42 billion to the USA.</p>
+  </div>
+
+  <div class="bar-chart">
+    <h3 style="margin-bottom:14px">🗝️ Key facts at a glance</h3>
+    <div class="bar-row">
+      <div class="bar-label">US Tariffs (FTA)</div>
+      <div class="bar-track"><div class="bar-fill" style="width:2%;background:#c1272d">0-2%</div></div>
+      <div class="bar-val" style="color:green;font-weight:600">✅ Nearly zero</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">IS Maroc</div>
+      <div class="bar-track"><div class="bar-fill" style="width:20%;background:#1a1a2e">20%</div></div>
+      <div class="bar-val">20% (2026)</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Coût SARL</div>
+      <div class="bar-track"><div class="bar-fill" style="width:18%;background:#006233">~3500 MAD</div></div>
+      <div class="bar-val">~350 USD</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Transit maritime</div>
+      <div class="bar-track"><div class="bar-fill" style="width:60%;background:#e67e22">15–35 jours</div></div>
+      <div class="bar-val">15–35 jours</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">Marge nette possible</div>
+      <div class="bar-track"><div class="bar-fill" style="width:45%;background:#27ae60">30–50%</div></div>
+      <div class="bar-val" style="color:green;font-weight:600">💚 Fort</div>
+    </div>
+  </div>
+
+  <div class="alert">
+    ⚠️ <strong>Important:</strong> Having a trusted contact (an importer) in the USA is a huge advantage — they act as your local importer. This avoids import agent fees (often 5–15% commission). A reliable partner in the US is invaluable when starting.
+  </div>
+</div>
+
+<!-- COMPANY -->
+<div id="company" class="section">
+  <h2>🏢 Company setup in Morocco</h2>
+
+  <div class="alert">
+    ⚠️ To export legally from Morocco you <strong>must</strong> have a registered business (RC, ICE, professional tax). You cannot export commercial shipments as a private individual.
+  </div>
+
+  <h3>Which legal form to choose?</h3>
+  <table>
+    <tr><th>Statut</th><th>Capital min.</th><th>Idéal pour</th><th>Avantage</th></tr>
+    <tr>
+      <td><strong>Auto-entrepreneur</strong></td>
+      <td class="green">0 MAD</td>
+      <td>Test à petite échelle</td>
+      <td>Simple, rapide, fiscal réduit</td>
+    </tr>
+    <tr>
+      <td><strong>SARL AU (EURL)</strong></td>
+      <td class="green">1 MAD</td>
+      <td>Export sérieux solo</td>
+      <td>Responsabilité limitée, crédible</td>
+    </tr>
+    <tr>
+      <td><strong>SARL classique</strong></td>
+      <td class="green">1 MAD</td>
+      <td>Partenariat familial</td>
+      <td>Plusieurs associés possible</td>
+    </tr>
+  </table>
+  <p style="margin-top:10px;font-size:0.85rem;color:#666">👉 <strong>Recommendation:</strong> start with a <strong>SARL AU (single-member LLC)</strong> — simple, protects personal assets, and is recognized for export.</p>
+
+  <h3>SARL setup steps (7 steps)</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Negative certificate (OMPIC) <span class="tag time">24–48h</span><span class="tag cost">230 MAD</span></h4><p>Check that your company name is available. Done online at ompic.ma</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Rédiger les statuts <span class="tag cost">500–1500 MAD notaire</span></h4><p>Document légal qui définit votre société. Un notaire ou un comptable peut vous aider.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Ouverture compte bancaire professionnel</h4><p>Déposer votre capital (même symbolique) pour avoir une attestation de blocage si nécessaire.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Immatriculation RC au CRI <span class="tag cost">350 MAD</span><span class="tag time">24–72h</span></h4><p>Centre Régional d'Investissement. Depuis 2025, tout se fait via directentreprise.ma avec un notaire ou comptable agréé.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><h4>Publication au journal officiel <span class="tag cost">~600–800 MAD</span></h4><p>Obligatoire pour officialiser la création.</p></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><h4>Taxe professionnelle (Patente) <span class="tag cost">Gratuit à la création</span></h4><p>S'obtient via la Direction Générale des Impôts. Aucun frais à la création.</p></div></div>
+    <div class="step"><div class="step-num">7</div><div class="step-body"><h4>Inscription CNSS + ICE automatique <span class="tag ok">Automatique</span></h4><p>L'ICE (Identifiant Commun de l'Entreprise) est attribué automatiquement par l'OMPIC lors de l'immatriculation.</p></div></div>
+  </div>
+
+  <div class="card">
+    <h3>💰 Estimated total cost to register a SARL</h3>
+    <p><strong>DIY option with an accountant:</strong> 2,000 – 3,500 MAD (~200–350 USD)<br/>
+    <strong>Turnkey package (example):</strong> 3,499 MAD — includes RC, ICE, CNSS, 24-month address service, logo, email domain<br/>
+    <strong>Total time:</strong> 3–7 business days (2025)</p>
+  </div>
+</div>
+
+<!-- TAXES -->
+<div id="taxes" class="section">
+  <h2>💰 Taxes & Customs Duties</h2>
+
+  <h3>🇲🇦 Morocco — What you pay</h3>
+  <table>
+    <tr><th>Taxe</th><th>Taux</th><th>Note</th></tr>
+    <tr><td>Impôt sur les Sociétés (IS)</td><td class="orange">20% (2026)</td><td>Sur le bénéfice net uniquement</td></tr>
+    <tr><td>TVA sur exportations</td><td class="green">0% (exonéré)</td><td>Les exports sont exonérés de TVA au Maroc</td></tr>
+    <tr><td>Droits d'export Maroc</td><td class="green">0% pour ces produits</td><td>Atay, savon, cosmétiques = pas taxés à l'export</td></tr>
+    <tr><td>Cotisation minimale IS</td><td class="orange">3 000 MAD/an</td><td>Même si déficit</td></tr>
+    <tr><td>Taxe professionnelle</td><td class="orange">Variable</td><td>Basée sur valeur locative de votre local</td></tr>
+  </table>
+
+  <h3>🇺🇸 USA — What your US partner/importer pays</h3>
+  <table>
+    <tr><th>Taxe / Frais</th><th>Taux</th><th>Note</th></tr>
+    <tr><td><strong>Droits de douane (FTA Maroc–USA)</strong></td><td class="green">0% sur quasiment tout</td><td>Grâce au Free Trade Agreement 2006. Pleinement effectif depuis 2023.</td></tr>
+    <tr><td>Merchandise Processing Fee (MPF)</td><td class="orange">0.3464% (min $32)</td><td>Le FTA n'exempte PAS du MPF — à prévoir</td></tr>
+    <tr><td>FDA Prior Notice</td><td class="green">Gratuit</td><td>Obligatoire pour toute nourriture importée</td></tr>
+    <tr><td>Impôt sur revenu (ventes US)</td><td class="orange">Selon état US + tranche</td><td>Votre relatif déclare ses revenus normalement</td></tr>
+    <tr><td>Sales tax (si revendeur)</td><td class="orange">Selon état (5–10%)</td><td>Collectée sur le consommateur final, pas lui</td></tr>
+  </table>
+
+  <div class="alert">
+    💡 <strong>Key tax summary:</strong> Thanks to the FTA, your products enter the USA <strong>virtually duty-free</strong>. This is your biggest competitive advantage versus non-FTA competitors.
+  </div>
+
+  <h3>Documents douaniers requis</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">📄</div><div class="step-body"><h4>Bill of Lading (Connaissement)</h4><p>Émis par le transporteur maritime. Identifie l'expéditeur, le destinataire, et la marchandise.</p></div></div>
+    <div class="step"><div class="step-num">📄</div><div class="step-body"><h4>Facture commerciale</h4><p>En anglais, avec valeur, description des produits, pays d'origine (Maroc).</p></div></div>
+    <div class="step"><div class="step-num">📄</div><div class="step-body"><h4>Certificat d'Origine</h4><p>Émis par la CCIM (Chambre de Commerce) au Maroc. Prouve l'origine marocaine pour bénéficier du FTA 0%.</p></div></div>
+    <div class="step"><div class="step-num">📄</div><div class="step-body"><h4>Packing List (Liste de colisage)</h4><p>Détail de chaque carton : poids, dimensions, contenu.</p></div></div>
+    <div class="step"><div class="step-num">📄</div><div class="step-body"><h4>FDA Prior Notice <span class="tag warn">Obligatoire nourriture</span></h4><p>Votre relatif doit soumettre cette notification avant l'arrivée du bateau aux USA. Gratuit sur le site FDA.</p></div></div>
+  </div>
+</div>
+
+<!-- SHIPPING -->
+<div id="shipping" class="section">
+  <h2>🚢 Shipping — How to send bulk shipments</h2>
+
+  <div class="card">
+    <h3>Main port: Casablanca (Marsa Maroc) ✅ Recommended</h3>
+    <p>Marsa Maroc manages the <strong>largest port in North Africa</strong> — Port of Casablanca. It's the natural departure point. Carriers run direct routes to New York (15–21 days) and other US ports.</p>
+  </div>
+
+  <h3>Modes d'expédition selon votre volume</h3>
+  <table>
+    <tr><th>Mode</th><th>Volume</th><th>Coût estimé</th><th>Transit</th><th>Idéal pour</th></tr>
+    <tr>
+      <td><strong>LCL (groupage)</strong></td>
+      <td>&lt; 15 m³</td>
+      <td class="orange">$200–600/m³</td>
+      <td>25–40 jours</td>
+      <td>Démarrage, test marché</td>
+    </tr>
+    <tr>
+      <td><strong>FCL 20 pieds</strong></td>
+      <td>~25 m³ / 18T</td>
+      <td class="orange">$1 500–3 000</td>
+      <td>15–25 jours</td>
+      <td>Volume moyen, régulier</td>
+    </tr>
+    <tr>
+      <td><strong>FCL 40 pieds</strong></td>
+      <td>~60 m³ / 28T</td>
+      <td class="orange">$2 500–5 000</td>
+      <td>15–25 jours</td>
+      <td>Grande échelle</td>
+    </tr>
+    <tr>
+      <td><strong>Fret aérien</strong></td>
+      <td>&lt; 500 kg</td>
+      <td class="red">$3–8/kg</td>
+      <td>2–5 jours</td>
+      <td>Urgences, test produit</td>
+    </tr>
+    <tr>
+      <td><strong>DHL/FedEx/UPS</strong></td>
+      <td>&lt; 70 kg</td>
+      <td class="red">Très cher</td>
+      <td>3–7 jours</td>
+      <td>Échantillons seulement</td>
+    </tr>
+  </table>
+
+  <h3>Maritime shipping steps (LCL or FCL)</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Choose a freight forwarder</h4><p>A forwarder handles the logistics. Look for Casablanca-based companies with USA experience: <strong>Schenker, Kuehne+Nagel, or reputable local forwarders</strong> listed by Marsa Maroc. They handle vessel booking, documentation, and Moroccan customs.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Préparer et emballer la marchandise</h4><p>Cartons résistants, palettes filmées pour le maritime. Étiquetage en anglais + arabe. Mention "Made in Morocco".</p></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Dédouanement export Maroc</h4><p>Votre transitaire dépose la Déclaration d'Exportation à l'ADII (Douane marocaine). Votre entreprise doit avoir le statut d'exportateur enregistré.</p></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Transit maritime Casablanca → USA</h4><p>15–21 jours vers New York (East Coast). 25–35 jours vers Los Angeles (West Coast). Votre relatif est-il à l'East ou West Coast ? Cela affecte le coût.</p></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-body"><h4>Dédouanement US (côté relatif)</h4><p>Votre relatif (ou un customs broker US qu'il mandate) déclare la marchandise à CBP (US Customs). Il présente tous les documents + FDA Prior Notice. Frais customs broker : $150–300 par envoi.</p></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-body"><h4>Livraison et vente</h4><p>Une fois en entrepôt aux USA, votre relatif vend via boutique physique, Amazon, Etsy, marchés locaux, épiceries arabes/africaines, etc.</p></div></div>
+  </div>
+
+  <div class="alert">
+    💡 <strong>Starter tip:</strong> For your first shipment use <strong>LCL (less than container load)</strong>. You share a container with other exporters. Typical cost: <strong>$500–1,500 for 1–3 m³</strong>. Ideal to test the market with low risk.
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div id="products" class="section">
+  <h2>📦 Your Products — Regulations & Market potential</h2>
+
+  <table>
+    <tr><th>Produit</th><th>Catégorie FDA</th><th>Droit douane USA</th><th>Formalité spéciale</th><th>Potentiel marché</th></tr>
+    <tr>
+      <td><strong>🍵 Atay (thé vert menthe)</strong></td>
+      <td>Aliment / Boisson</td>
+      <td class="green">0% (FTA)</td>
+      <td>FDA Prior Notice + Étiquetage anglais</td>
+      <td class="green">⭐⭐⭐⭐⭐ Très fort</td>
+    </tr>
+    <tr>
+      <td><strong>🍪 Bimo (biscuits)</strong></td>
+      <td>Aliment transformé</td>
+      <td class="green">0% (FTA)</td>
+      <td>FDA Prior Notice + Nutrition facts label + Allergènes en anglais</td>
+      <td class="green">⭐⭐⭐⭐ Fort (diaspora)</td>
+    </tr>
+    <tr>
+      <td><strong>🪨 Ghassoul (argile)</strong></td>
+      <td>Cosmétique</td>
+      <td class="green">0% (FTA)</td>
+      <td>Étiquetage FDA cosmétique, liste ingrédients INCI</td>
+      <td class="green">⭐⭐⭐⭐⭐ Très fort (tendance naturel)</td>
+    </tr>
+    <tr>
+      <td><strong>🧼 Savon Beldi</strong></td>
+      <td>Cosmétique</td>
+      <td class="green">0% (FTA)</td>
+      <td>Étiquetage FDA, liste INCI, pas de claims médicaux</td>
+      <td class="green">⭐⭐⭐⭐⭐ Très fort (tendance naturel)</td>
+    </tr>
+    <tr>
+      <td><strong>🫒 Huile d'argan</strong></td>
+      <td>Cosmétique / Alimentaire</td>
+      <td class="green">0% (FTA)</td>
+      <td>Selon usage (cosmétique ou culinaire) — 2 réglementations différentes</td>
+      <td class="green">⭐⭐⭐⭐⭐ Très fort</td>
+    </tr>
+  </table>
+
+  <h3>🏷️ Mandatory US labeling requirements</h3>
+  <div class="card">
+    <p>
+    <strong>For foods (Atay, Bimo):</strong><br/>
+    • Nutrition Facts panel (US FDA format)<br/>
+    • Ingredient list in English, by weight order<br/>
+    • Allergen declaration (gluten, nuts, soy, etc.)<br/>
+    • Net weight in US units (oz/lb) AND metric<br/>
+    • Name and address of the US importer (your partner)<br/><br/>
+    <strong>For cosmetics (Ghassoul, Beldi soap):</strong><br/>
+    • INCI names for ingredients (English)<br/>
+    • Net contents in oz or fl oz<br/>
+    • No medical claims ("cures", "treats") — cosmetic claims only<br/>
+    • No prior FDA approval required before sale (unlike drugs)<br/><br/>
+    ✅ <strong>Tip:</strong> Print English sticker labels to apply to existing packaging. It's legal and cost-effective to start.
+    </p>
+  </div>
+</div>
+
+<!-- SIMULATOR -->
+<div id="simulator" class="section">
+  <h2>🧮 Profit Simulator</h2>
+  <p style="margin-bottom:16px;color:#666;font-size:0.9rem">Estimate your profits for a typical shipment. Adjust values to match your situation.</p>
+
+  <div class="sim-grid">
+    <div class="sim-box">
+      <h3>📤 Morocco side (you)</h3>
+      <label>Prix achat produits (MAD)</label>
+      <input type="number" id="costMad" value="5000" oninput="calc()"/>
+      <label>Valeur totale expédiée (MAD)</label>
+      <input type="number" id="valueMad" value="12000" oninput="calc()"/>
+      <label>Frais emballage & étiquetage (MAD)</label>
+      <input type="number" id="packMad" value="800" oninput="calc()"/>
+      <label>Coût expédition maritime (USD)</label>
+      <input type="number" id="shipUsd" value="700" oninput="calc()"/>
+      <label>Frais transitaire Maroc (MAD)</label>
+      <input type="number" id="agentMad" value="1200" oninput="calc()"/>
+    </div>
+    <div class="sim-box">
+      <h3>📥 USA side (your partner/importer)</h3>
+      <label>Prix de revente prévu (USD)</label>
+      <input type="number" id="sellUsd" value="3500" oninput="calc()"/>
+      <label>Frais customs broker USA (USD)</label>
+      <input type="number" id="brokerUsd" value="200" oninput="calc()"/>
+      <label>Droits de douane USA (%)</label>
+      <input type="number" id="dutyPct" value="0" oninput="calc()"/>
+      <label>Frais de stockage / distribution USA (USD)</label>
+      <input type="number" id="storageUsd" value="150" oninput="calc()"/>
+      <label>Taux de change (1 USD = MAD)</label>
+      <input type="number" id="rate" value="10" step="0.1" oninput="calc()"/>
+    </div>
+  </div>
+
+  <div class="result-box" id="results">
+    <h3>📊 ESTIMATED RESULTS</h3>
+    <div id="resRows"></div>
+  </div>
+  <p style="margin-top:10px;font-size:0.75rem;color:#999;">⚠️ Indicative simulation only. Consult an accountant for exact tax calculations. Moroccan corporate tax (20%) is not included here because it is calculated on annual profits.</p>
+</div>
+
+<!-- VERDICT -->
+<div id="verdict" class="section">
+  <h2>✅ Final Verdict — My entrepreneur's view</h2>
+
+  <div class="verdict">
+    <div class="verdict-card v-green">
+      <div class="icon">💚</div>
+      <h4>Faisable</h4>
+      <p>Avec un relatif aux USA, vous avez 90% des obstacles logistiques déjà résolus. Les FTA rendent les douanes quasi gratuites.</p>
+    </div>
+    <div class="verdict-card v-green">
+      <div class="icon">📈</div>
+      <h4>Rentable</h4>
+      <p>Les produits marocains naturels (ghassoul, savon beldi) se vendent 3x–8x leur prix Maroc aux USA. La marge est excellente.</p>
+    </div>
+    <div class="verdict-card v-blue">
+      <div class="icon">🔄</div>
+      <h4>Maintenable</h4>
+      <p>Une fois le système en place (SARL, transitaire, customs broker US), chaque expédition est un processus répétable.</p>
+    </div>
+  </div>
+
+  <h3>🗺️ Recommended action plan (6 months)</h3>
+  <div class="steps">
+    <div class="step"><div class="step-num">M1</div><div class="step-body"><h4>Mois 1 — Légal & Admin</h4><p>Créez votre SARL AU au Maroc (~3 500 MAD). Votre relatif crée une LLC ou Sole Proprietorship aux USA (selon son état, $50–500). Ouvrez des comptes bancaires professionnels des deux côtés.</p></div></div>
+    <div class="step"><div class="step-num">M2</div><div class="step-body"><h4>Mois 2 — Premier test (échantillons)</h4><p>Envoyez un premier colis DHL/FedEx d'échantillons (20–30 kg) à votre relatif pour qu'il teste la demande locale, les prix, et les retours des clients. Investissement : ~$300–500.</p></div></div>
+    <div class="step"><div class="step-num">M3</div><div class="step-body"><h4>Mois 3 — Premier envoi LCL</h4><p>Si les tests sont positifs, préparez votre premier envoi groupé (LCL) de 1–3 m³ via un transitaire à Casablanca. Valeur marchandise : $1 000–3 000. Frais ship : $500–800. Budget total : ~$2 000–4 000.</p></div></div>
+    <div class="step"><div class="step-num">M4</div><div class="step-body"><h4>Mois 4–5 — Vente et retours</h4><p>Votre relatif vend via épiceries maghrébines/africaines, marchés arabes, Amazon, Etsy, ou ses propres réseaux. Analysez ce qui se vend le mieux : atay? Ghassoul? Savon?</p></div></div>
+    <div class="step"><div class="step-num">M6</div><div class="step-body"><h4>Mois 6 — Scale up</h4><p>Si les marges sont confirmées, passez aux envois réguliers (FCL 20 pieds tous les 2–3 mois). Envisagez de diversifier : huile d'argan, zatar, amlou, poterie, textiles...</p></div></div>
+  </div>
+
+  <h3>⚠️ Risks to be aware of</h3>
+  <table>
+    <tr><th>Risque</th><th>Probabilité</th><th>Mitigation</th></tr>
+    <tr><td>FDA bloque l'envoi (étiquetage non conforme)</td><td class="orange">Moyen</td><td>Faites vérifier vos étiquettes par un consultant FDA avant le 1er envoi ($200–500)</td></tr>
+    <tr><td>Retard douanier US</td><td class="orange">Moyen</td><td>Prévoyez du stock tampon chez votre relatif. Ne vendez pas avant réception.</td></tr>
+    <tr><td>Désaccord avec le relatif sur les marges</td><td class="orange">Moyen</td><td>Formalisez un accord écrit dès le départ. Définissez qui paie quoi.</td></tr>
+    <tr><td>Concurrence produits similaires en USA</td><td class="green">Faible</td><td>Différenciez par l'authenticité et le storytelling (origine, production artisanale)</td></tr>
+    <tr><td>Fluctuation MAD/USD</td><td class="green">Faible</td><td>Facturez en USD pour vous protéger</td></tr>
+  </table>
+
+  <div class="card" style="background:#d4edda;margin-top:20px">
+    <h3 style="color:#155724">🎯 Advisor conclusion</h3>
+    <p style="color:#155724">This is <strong>a real and underexploited opportunity</strong>. Moroccan natural products (ghassoul, beldi soap, argan oil) are trending in the US "clean beauty" market. Moroccan tea is emblematic among the diaspora and beyond. With a reliable US partner you remove the biggest hurdle (finding a trustworthy importer). <strong>Start small, validate the market, then scale.</strong> Realistic launch budget: <strong>$2,000–5,000</strong> for the first 6 months.</p>
+  </div>
+</div>
+
+<footer>Guide created with data from the USA–Morocco FTA (2006), OMPIC, ADII, and FDA · May 2026</footer>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function calc() {
+  const rate = parseFloat(document.getElementById('rate').value) || 10;
+  const costMad = parseFloat(document.getElementById('costMad').value) || 0;
+  const valueMad = parseFloat(document.getElementById('valueMad').value) || 0;
+  const packMad = parseFloat(document.getElementById('packMad').value) || 0;
+  const shipUsd = parseFloat(document.getElementById('shipUsd').value) || 0;
+  const agentMad = parseFloat(document.getElementById('agentMad').value) || 0;
+  const sellUsd = parseFloat(document.getElementById('sellUsd').value) || 0;
+  const brokerUsd = parseFloat(document.getElementById('brokerUsd').value) || 0;
+  const dutyPct = parseFloat(document.getElementById('dutyPct').value) || 0;
+  const storageUsd = parseFloat(document.getElementById('storageUsd').value) || 0;
+
+  const valueUsd = valueMad / rate;
+  const totalCostMad = costMad + packMad + agentMad;
+  const totalCostUsd = totalCostMad / rate + shipUsd;
+  const dutyUsd = valueUsd * dutyPct / 100;
+  const totalUSCost = brokerUsd + dutyUsd + storageUsd;
+  const totalExpenseUsd = totalCostUsd + totalUSCost;
+  const grossProfitUsd = sellUsd - totalExpenseUsd;
+  const marginPct = sellUsd > 0 ? (grossProfitUsd / sellUsd * 100).toFixed(1) : 0;
+
+  const html = `
+    <div class="result-row"><span>Coût total Maroc (USD)</span><span>$${totalCostUsd.toFixed(0)}</span></div>
+    <div class="result-row"><span>Droits douane USA</span><span>$${dutyUsd.toFixed(0)}</span></div>
+    <div class="result-row"><span>Frais US (broker + stockage)</span><span>$${totalUSCost.toFixed(0)}</span></div>
+    <div class="result-row"><span>💸 Total dépenses</span><span>$${totalExpenseUsd.toFixed(0)}</span></div>
+    <div class="result-row"><span>💰 Prix de vente</span><span>$${sellUsd.toFixed(0)}</span></div>
+    <div class="result-total">Bénéfice brut : $${grossProfitUsd.toFixed(0)} (marge ${marginPct}%)</div>
+  `;
+  document.getElementById('resRows').innerHTML = html;
+}
+
+calc();
+</script>
+</body>
+</html>
